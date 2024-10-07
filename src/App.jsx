@@ -3,28 +3,39 @@ import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
 
 const App = () => {
-  const [labels, setLabels] = useState([]);
-  const [values, setValues] = useState([]);
-  const [inputLabel, setInputLabel] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const [years, setYears] = useState([]);
+  const [profits, setProfits] = useState([]);
+  const [losses, setLosses] = useState([]);
+  const [inputYear, setInputYear] = useState('');
+  const [inputProfit, setInputProfit] = useState('');
+  const [inputLoss, setInputLoss] = useState('');
 
   const handleAddData = () => {
-    if (inputLabel && inputValue) {
-      setLabels([...labels, inputLabel]);
-      setValues([...values, parseFloat(inputValue)]);
-      setInputLabel('');
-      setInputValue('');
+    if (inputYear && inputProfit && inputLoss) {
+      setYears([...years, inputYear]);
+      setProfits([...profits, parseFloat(inputProfit)]);
+      setLosses([...losses, parseFloat(inputLoss)]);
+      setInputYear('');
+      setInputProfit('');
+      setInputLoss('');
     }
   };
 
   const data = {
-    labels: labels,
+    labels: years,
     datasets: [
       {
-        label: 'User Data',
-        data: values,
+        label: 'Profits',
+        data: profits,
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1,
+      },
+      {
+        label: 'Losses',
+        data: losses,
+        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+        borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
       },
     ],
@@ -32,20 +43,27 @@ const App = () => {
 
   return (
     <div style={{ width: '600px', margin: '0 auto' }}>
-      <h1>Bar Graph with User Input</h1>
+      <h1>Grouped Bar Graph: Profit and Losses by Year</h1>
       <div style={{ marginBottom: '20px' }}>
         <input
           type="text"
-          placeholder="Label"
-          value={inputLabel}
-          onChange={(e) => setInputLabel(e.target.value)}
+          placeholder="Year"
+          value={inputYear}
+          onChange={(e) => setInputYear(e.target.value)}
           style={{ marginRight: '10px' }}
         />
         <input
           type="number"
-          placeholder="Value"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Profit"
+          value={inputProfit}
+          onChange={(e) => setInputProfit(e.target.value)}
+          style={{ marginRight: '10px' }}
+        />
+        <input
+          type="number"
+          placeholder="Loss"
+          value={inputLoss}
+          onChange={(e) => setInputLoss(e.target.value)}
           style={{ marginRight: '10px' }}
         />
         <button onClick={handleAddData}>Add Data</button>
