@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto';
+import './App.css'; // Import the CSS file
 
 const App = () => {
   const [years, setYears] = useState([]);
@@ -41,34 +42,75 @@ const App = () => {
     ],
   };
 
+  const options = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Year',
+          font: {
+            size: 16,
+            weight: 'bold',
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Value (%)',
+          font: {
+            size: 16,
+            weight: 'bold',
+          },
+        },
+        ticks: {
+          callback: function (value) {
+            return value + '%';
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <div style={{ width: '600px', margin: '0 auto' }}>
-      <h1>Grouped Bar Graph: Profit and Losses by Year</h1>
-      <div style={{ marginBottom: '20px' }}>
-        <input
-          type="text"
-          placeholder="Year"
-          value={inputYear}
-          onChange={(e) => setInputYear(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <input
-          type="number"
-          placeholder="Profit"
-          value={inputProfit}
-          onChange={(e) => setInputProfit(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <input
-          type="number"
-          placeholder="Loss"
-          value={inputLoss}
-          onChange={(e) => setInputLoss(e.target.value)}
-          style={{ marginRight: '10px' }}
-        />
-        <button onClick={handleAddData}>Add Data</button>
+    <div className="container">
+      <h1 className="title">Grouped Bar Graph: Profit and Losses by Year</h1>
+      <div className="input-container">
+        <div className="input-group">
+          <label htmlFor="year">Year:</label>
+          <input
+            type="text"
+            id="year"
+            value={inputYear}
+            onChange={(e) => setInputYear(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="profit">Profit:</label>
+          <input
+            type="number"
+            id="profit"
+            value={inputProfit}
+            onChange={(e) => setInputProfit(e.target.value)}
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="loss">Loss:</label>
+          <input
+            type="number"
+            id="loss"
+            value={inputLoss}
+            onChange={(e) => setInputLoss(e.target.value)}
+          />
+        </div>
+        <button className="add-button" onClick={handleAddData}>
+          Add Data
+        </button>
       </div>
-      <Bar data={data} />
+      <div className="chart-container">
+        <Bar data={data} options={options} />
+      </div>
     </div>
   );
 };
